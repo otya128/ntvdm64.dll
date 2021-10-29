@@ -1,0 +1,9 @@
+Debug/
+ARM64/
+ARM/
+Release/
+.vs/
+x64/
+TestDebug/
+*.vcxproj.user
+*.vcxproj.filters
