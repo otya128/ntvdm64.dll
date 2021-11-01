@@ -262,6 +262,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|Win32'">
@@ -284,6 +285,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>false</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -306,6 +308,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|x64'">
@@ -328,6 +331,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>false</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -350,6 +354,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|ARM'">
@@ -372,6 +377,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>false</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
@@ -394,6 +400,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='TestDebug|ARM64'">
@@ -416,6 +423,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>false</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -441,6 +449,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -466,6 +475,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -491,6 +501,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
@@ -516,6 +527,7 @@
       </IgnoreSpecificDefaultLibraries>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalDependencies>kernel32.lib;advapi32.lib;ntdll.lib</AdditionalDependencies>
+      <ModuleDefinitionFile>ntvdm64.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -538,6 +550,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ntvdm64.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ntvdm64.dll.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

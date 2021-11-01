@@ -1,0 +1,4 @@
+LIBRARY ntvdm64.dll
+EXPORTS
+NtVdm64CreateProcessInternalW @2
+NtVdm64RaiseInvalid16BitError @3

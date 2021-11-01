@@ -171,7 +171,7 @@ static BOOL Process(LPCWSTR *ApplicationName, LPCWSTR *CommandLine)
     return Success;
 }
 
-extern "C" __declspec(dllexport) BOOL WINAPI NtVdm64CreateProcessInternalW(HANDLE hUserToken,
+extern "C" BOOL WINAPI NtVdm64CreateProcessInternalW(HANDLE hUserToken,
     LPCWSTR lpApplicationName,
     LPCWSTR lpCommandLine,
     LPSECURITY_ATTRIBUTES lpProcessAttributes,
@@ -223,6 +223,15 @@ extern "C" __declspec(dllexport) BOOL WINAPI NtVdm64CreateProcessInternalW(HANDL
         HeapFree(GetProcessHeap(), 0, (LPVOID)NewCommandLine);
     }
     return Result;
+}
+
+extern "C" DWORD WINAPI NtVdm64RaiseInvalid16BitError(LPCWSTR Argument1)
+{
+    HMODULE user32 = LoadLibraryW(L"user32.dll");
+    auto pMessageBoxW = (int(WINAPI*)(HWND, LPCWSTR, LPCWSTR, UINT))GetProcAddress(user32, "MessageBoxW");
+    pMessageBoxW(NULL, Argument1, L"NtVdm64RaiseInvalid16BitError", MB_OK);
+    FreeLibrary(user32);
+    return 0;
 }
 
 #ifdef TEST

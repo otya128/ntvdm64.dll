@@ -7,3 +7,6 @@ x64/
 TestDebug/
 *.vcxproj.user
 *.vcxproj.filters
+*.aps
+bin/
+obj/
