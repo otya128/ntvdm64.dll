@@ -10,16 +10,19 @@ Global
 		Debug|ARM = Debug|ARM
 		Debug|ARM64 = Debug|ARM64
 		Debug|ARM64EC = Debug|ARM64EC
+		Debug|CHPE = Debug|CHPE
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|ARM = Release|ARM
 		Release|ARM64 = Release|ARM64
 		Release|ARM64EC = Release|ARM64EC
+		Release|CHPE = Release|CHPE
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 		TestDebug|ARM = TestDebug|ARM
 		TestDebug|ARM64 = TestDebug|ARM64
 		TestDebug|ARM64EC = TestDebug|ARM64EC
+		TestDebug|CHPE = TestDebug|CHPE
 		TestDebug|x64 = TestDebug|x64
 		TestDebug|x86 = TestDebug|x86
 	EndGlobalSection
@@ -30,6 +33,8 @@ Global
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|ARM64.Build.0 = Debug|ARM64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|ARM64EC.ActiveCfg = Debug|ARM64EC
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|ARM64EC.Build.0 = Debug|ARM64EC
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|CHPE.ActiveCfg = Debug|CHPE
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|CHPE.Build.0 = Debug|CHPE
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|x64.ActiveCfg = Debug|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|x64.Build.0 = Debug|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|x86.ActiveCfg = Debug|Win32
@@ -40,6 +45,8 @@ Global
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|ARM64.Build.0 = Release|ARM64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|ARM64EC.ActiveCfg = Release|ARM64EC
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|ARM64EC.Build.0 = Release|ARM64EC
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|CHPE.ActiveCfg = Release|CHPE
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|CHPE.Build.0 = Release|CHPE
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|x64.ActiveCfg = Release|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|x64.Build.0 = Release|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|x86.ActiveCfg = Release|Win32
@@ -50,6 +57,8 @@ Global
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|ARM64.Build.0 = TestDebug|ARM64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|ARM64EC.ActiveCfg = TestDebug|ARM64EC
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|ARM64EC.Build.0 = TestDebug|ARM64EC
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|CHPE.ActiveCfg = TestDebug|CHPE
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|CHPE.Build.0 = TestDebug|CHPE
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|x64.ActiveCfg = TestDebug|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|x64.Build.0 = TestDebug|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|x86.ActiveCfg = TestDebug|Win32
