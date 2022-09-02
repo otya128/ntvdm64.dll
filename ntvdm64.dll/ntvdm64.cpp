@@ -86,6 +86,7 @@ static LPWSTR ReplaceCommandLine(LPCWSTR lpCommandLine, LPCWSTR lpApplicationNam
     auto NewCommandLine = reinterpret_cast<LPWSTR>(HeapAlloc(GetProcessHeap(), 0, NewLength * sizeof(WCHAR)));
     if (!NewCommandLine)
     {
+        HeapFree(GetProcessHeap(), 0, (LPVOID)ApplicationNameInProgramCommandLine);
         return nullptr;
     }
     size_t NewPos = 0;
@@ -117,6 +118,7 @@ static LPWSTR ReplaceCommandLine(LPCWSTR lpCommandLine, LPCWSTR lpApplicationNam
     }
     NewCommandLine[NewLength - 1] = L'\0';
     assert(NewLength == NewPos + 1);
+    HeapFree(GetProcessHeap(), 0, (LPVOID)ApplicationNameInProgramCommandLine);
     return NewCommandLine;
 }
 
