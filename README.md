@@ -11,7 +11,7 @@ Installing this DLL on ARM64 Windows will allow you to launch Win16 programs dir
 4. Copy ntvdm64.dll-1.0\Windows11\SysWOW64\ntvdm64.dll to C:\Windows\SysWOW64\ntvdm64.dll
 5. Download https://github.com/otya128/winevdm and extract (e.g. C:\otvdm\)
 6. Copy ntvdm64.dll-1.0\otvdm-install.bat to C:\otvdm\otvdm-install.bat
-7. Execute C:\otvdm\otvdm-install.bat
+7. Execute C:\otvdm\otvdm-install.bat as administrator
 
 ## How to install (Windows 10)
 
@@ -21,4 +21,4 @@ Installing this DLL on ARM64 Windows will allow you to launch Win16 programs dir
 4. Copy ntvdm64.dll-1.0\Windows10\SysWOW64\ntvdm64.dll to C:\Windows\SysWOW64\ntvdm64.dll
 5. Download https://github.com/otya128/winevdm and extract (e.g. C:\otvdm\)
 6. Copy ntvdm64.dll-1.0\otvdm-install.bat to C:\otvdm\otvdm-install.bat
-7. Execute C:\otvdm\otvdm-install.bat
+7. Execute C:\otvdm\otvdm-install.bat as administrator
