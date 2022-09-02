@@ -19,8 +19,49 @@ static size_t my_wcslen(LPCWSTR String)
     return Length;
 }
 
+static void SplitCommandLine(LPCWSTR CommandLine, LPCWSTR *FirstArgument, LPCWSTR *RemainArguments)
+{
+    size_t SplitPosition = 0;
+    auto QuoteMode = false;
+    if (CommandLine[0] == L'"')
+    {
+        for (SplitPosition = 1; CommandLine[SplitPosition]; SplitPosition++)
+        {
+            if (CommandLine[SplitPosition] == '\"')
+            {
+                SplitPosition++;
+                break;
+            }
+        }
+    }
+    else
+    {
+        for (SplitPosition = 0; CommandLine[SplitPosition]; SplitPosition++)
+        {
+            if (CommandLine[SplitPosition] == L' ' || CommandLine[SplitPosition] == L'\t')
+            {
+                break;
+            }
+        }
+    }
+    auto f = reinterpret_cast<LPWSTR>(HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (SplitPosition + 1) * sizeof(WCHAR)));
+    if (!f)
+    {
+        *RemainArguments = nullptr;
+        *FirstArgument = nullptr;
+        return;
+    }
+    my_memcpy(f, CommandLine, SplitPosition * sizeof(WCHAR));
+    f[SplitPosition] = L'\0';
+    *FirstArgument = f;
+    *RemainArguments = CommandLine + SplitPosition;
+}
+
 static LPWSTR ReplaceCommandLine(LPCWSTR lpCommandLine, LPCWSTR lpApplicationName, LPCWSTR lpProgramCommandLine)
 {
+    LPCWSTR ApplicationNameInProgramCommandLine;
+    SplitCommandLine(lpProgramCommandLine, &ApplicationNameInProgramCommandLine, &lpProgramCommandLine);
+    auto appNameLen = my_wcslen(ApplicationNameInProgramCommandLine);
     auto len = my_wcslen(lpCommandLine);
     auto mlen = my_wcslen(lpApplicationName);
     auto clen = my_wcslen(lpProgramCommandLine);
@@ -42,13 +83,17 @@ static LPWSTR ReplaceCommandLine(LPCWSTR lpCommandLine, LPCWSTR lpApplicationNam
             }
         }
     }
-    auto NewLength = len - 2 * mcnt - 2 * ccnt + mlen * mcnt + clen * ccnt + 1;
+    auto NewLength = appNameLen + 1 /* space */ + len - 2 * mcnt /* %m */ - 2 * ccnt /* %c */ + mlen * mcnt + clen * ccnt + 1;
     auto NewCommandLine = reinterpret_cast<LPWSTR>(HeapAlloc(GetProcessHeap(), 0, NewLength * sizeof(WCHAR)));
     if (!NewCommandLine)
     {
         return nullptr;
     }
     size_t NewPos = 0;
+    my_memcpy(NewCommandLine, ApplicationNameInProgramCommandLine, appNameLen * sizeof(WCHAR));
+    NewPos += appNameLen;
+    NewCommandLine[appNameLen] = L' ';
+    NewPos++;
     for (size_t i = 0; i < len; i++)
     {
         if (lpCommandLine[i] == L'%' && i + 1 < len)
@@ -201,7 +246,8 @@ extern "C" BOOL WINAPI NtVdm64CreateProcessInternalW(HANDLE hUserToken,
     auto Result = Process(&NewApplicationName, &NewCommandLine);
     if (Result)
     {
-        Result = pCreateProcessInternalW(hUserToken,
+        Result = pCreateProcessInternalW(
+            hUserToken,
             NewApplicationName,
             NewCommandLine,
             lpProcessAttributes,
@@ -235,13 +281,122 @@ extern "C" DWORD WINAPI NtVdm64RaiseInvalid16BitError(LPCWSTR Argument1)
 }
 
 #ifdef TEST
+#include <stdio.h>
+#include <shellapi.h>
+#pragma comment(lib, "shell32.lib")
+static void parse(LPCWSTR cmdline)
+{
+    int num = 0;
+    auto res = CommandLineToArgvW(cmdline, &num);
+    for (int i = 0; i < num; i++)
+    {
+        wprintf(L"[%i] = %s\n", i, res[i]);
+    }
+    wprintf(L"cmdline = %s\n====\n", cmdline);
+    LocalFree(res);
+}
+
+static void msvcrt_vs_shell32(LPCWSTR cmdline)
+{
+    WCHAR path[MAX_PATH];
+    GetModuleFileNameW(nullptr, path, MAX_PATH);
+    STARTUPINFOW si = {};
+    PROCESS_INFORMATION pi = {};
+    CreateProcessW(path, (LPWSTR)cmdline, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+    WaitForSingleObject(pi.hProcess, INFINITE);
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+    parse(cmdline);
+}
+
 int main(int argc, char **argv)
 {
     auto app = L"TEST.EXE";
     auto cmd = L"testtest test";
-    assert(!wcscmp(ReplaceCommandLine(L"%m", L"Mapped", L"cmd"), L"Mapped"));
-    assert(!wcscmp(ReplaceCommandLine(L"%c", L"Mapped", L"cmd"), L"cmd"));
-    assert(!wcscmp(ReplaceCommandLine(L"%m %c", L"Mapped", L"cmd"), L"Mapped cmd"));
+    for (int i = 0; i < argc; i++)
+    {
+        printf("[%i] = %s\n", i, argv[i]);
+    }
+    printf("cmdline = %s\n", GetCommandLineA());
+    if (argc == 2 && !strcmp(argv[1], "test"))
+    {
+        // msvcrt vs shell32
+        // msvcrt:  "aaa"bbb  => [0] = "aaabbb"
+        // shell32: "aaa"bbb  => [0] = "aaa" [1] = "bbb"
+        // msvcrt:  "aaa" bbb => [0] = "aaa" [1] = "bbb"
+        // shell32: "aaa" bbb => [0] = "aaa" [1] = "bbb"
+        msvcrt_vs_shell32(L"\"aaa\"bbb");
+        msvcrt_vs_shell32(L"\"aaa\" bbb");
+        msvcrt_vs_shell32(L" aaa");
+        msvcrt_vs_shell32(L"\"a\" aaa");
+        msvcrt_vs_shell32(L"\"a\"aaa");
+        msvcrt_vs_shell32(L"\"a\"\taaa");
+        msvcrt_vs_shell32(L"\"a\\\"\"\taaa");
+        msvcrt_vs_shell32(L"a\\\\\\\\\"b c\" d e");
+        msvcrt_vs_shell32(L"_ a\\\\\\\\\"b c\" d e");
+        msvcrt_vs_shell32(L"\"1 2 3 4\" 222");
+        msvcrt_vs_shell32(L"\"1 2 3\\\" 4\" 222");
+        msvcrt_vs_shell32(L"123\"456 789\" abc");
+    }
+    {
+        LPCWSTR First, Remain;
+        SplitCommandLine(L"test.exe argtest aaa", &First, &Remain);
+        assert(!wcscmp(First, L"test.exe"));
+        assert(!wcscmp(Remain, L" argtest aaa"));
+        HeapFree(GetProcessHeap(), 0, (LPVOID)First);
+    }
+    {
+        LPCWSTR First, Remain;
+        SplitCommandLine(L"  test.exe argtest aaa", &First, &Remain);
+        assert(!wcscmp(First, L""));
+        assert(!wcscmp(Remain, L"  test.exe argtest aaa"));
+        HeapFree(GetProcessHeap(), 0, (LPVOID)First);
+    }
+    {
+        LPCWSTR First, Remain;
+        SplitCommandLine(L"test.exe   argtest aaa", &First, &Remain);
+        assert(!wcscmp(First, L"test.exe"));
+        assert(!wcscmp(Remain, L"   argtest aaa"));
+        HeapFree(GetProcessHeap(), 0, (LPVOID)First);
+    }
+    {
+        LPCWSTR First, Remain;
+        SplitCommandLine(L"\"test.exe\"   argtest aaa", &First, &Remain);
+        assert(!wcscmp(First, L"\"test.exe\""));
+        assert(!wcscmp(Remain, L"   argtest aaa"));
+        HeapFree(GetProcessHeap(), 0, (LPVOID)First);
+    }
+    {
+        LPCWSTR First, Remain;
+        SplitCommandLine(L"\"test\\\\.exe\"   argtest aaa", &First, &Remain);
+        assert(!wcscmp(First, L"\"test\\\\.exe\""));
+        assert(!wcscmp(Remain, L"   argtest aaa"));
+        HeapFree(GetProcessHeap(), 0, (LPVOID)First);
+    }
+    {
+        LPCWSTR First, Remain;
+        SplitCommandLine(L"\"test\\\".exe\"   argtest aaa", &First, &Remain);
+        assert(!wcscmp(First, L"\"test\\\""));
+        assert(!wcscmp(Remain, L".exe\"   argtest aaa"));
+        HeapFree(GetProcessHeap(), 0, (LPVOID)First);
+    }
+    {
+        LPCWSTR First, Remain;
+        SplitCommandLine(L"\"test\\\".ex e\"\"aaa\"   argtest aaa", &First, &Remain);
+        assert(!wcscmp(First, L"\"test\\\""));
+        assert(!wcscmp(Remain, L".ex e\"\"aaa\"   argtest aaa"));
+        HeapFree(GetProcessHeap(), 0, (LPVOID)First);
+    }
+    assert(!wcscmp(ReplaceCommandLine(L"%m", L"Mapped", L"cmd"), L"cmd Mapped"));
+    assert(!wcscmp(ReplaceCommandLine(L"%c", L"Mapped", L"cmd"), L"cmd "));
+    assert(!wcscmp(ReplaceCommandLine(L"%m %c", L"Mapped", L"cmd"), L"cmd Mapped "));
+    assert(!wcscmp(ReplaceCommandLine(L"%m %c", L"Mapped", L"cmd args"), L"cmd Mapped  args"));
+#if 0
+    // original implementation
+    assert(!wcscmp(ReplaceCommandLine(L"%m %c", L"Mapped", L"\"cmd\" args"), L"\"cmd Mapped \" args"));
+#else
+    assert(!wcscmp(ReplaceCommandLine(L"%m %c", L"Mapped", L"\"cmd\" args"), L"\"cmd\" Mapped  args"));
+#endif
     Process(&app, &cmd);
 }
 #endif
