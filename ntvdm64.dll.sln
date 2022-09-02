@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1705
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ntvdm64.dll", "ntvdm64.dll\ntvdm64.dll.vcxproj", "{FD8661D4-07D4-444D-A33B-06FC6D89A442}"
 EndProject
@@ -9,14 +9,17 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
 		Debug|ARM64 = Debug|ARM64
+		Debug|ARM64EC = Debug|ARM64EC
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|ARM = Release|ARM
 		Release|ARM64 = Release|ARM64
+		Release|ARM64EC = Release|ARM64EC
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 		TestDebug|ARM = TestDebug|ARM
 		TestDebug|ARM64 = TestDebug|ARM64
+		TestDebug|ARM64EC = TestDebug|ARM64EC
 		TestDebug|x64 = TestDebug|x64
 		TestDebug|x86 = TestDebug|x86
 	EndGlobalSection
@@ -25,6 +28,8 @@ Global
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|ARM.Build.0 = Debug|ARM
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|ARM64.ActiveCfg = Debug|ARM64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|ARM64.Build.0 = Debug|ARM64
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|ARM64EC.ActiveCfg = Debug|ARM64EC
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|ARM64EC.Build.0 = Debug|ARM64EC
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|x64.ActiveCfg = Debug|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|x64.Build.0 = Debug|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Debug|x86.ActiveCfg = Debug|Win32
@@ -33,6 +38,8 @@ Global
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|ARM.Build.0 = Release|ARM
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|ARM64.ActiveCfg = Release|ARM64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|ARM64.Build.0 = Release|ARM64
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|ARM64EC.ActiveCfg = Release|ARM64EC
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|ARM64EC.Build.0 = Release|ARM64EC
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|x64.ActiveCfg = Release|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|x64.Build.0 = Release|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.Release|x86.ActiveCfg = Release|Win32
@@ -41,6 +48,8 @@ Global
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|ARM.Build.0 = TestDebug|ARM
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|ARM64.ActiveCfg = TestDebug|ARM64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|ARM64.Build.0 = TestDebug|ARM64
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|ARM64EC.ActiveCfg = TestDebug|ARM64EC
+		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|ARM64EC.Build.0 = TestDebug|ARM64EC
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|x64.ActiveCfg = TestDebug|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|x64.Build.0 = TestDebug|x64
 		{FD8661D4-07D4-444D-A33B-06FC6D89A442}.TestDebug|x86.ActiveCfg = TestDebug|Win32
