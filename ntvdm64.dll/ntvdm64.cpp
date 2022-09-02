@@ -141,7 +141,7 @@ static BOOL MatchEntry(HKEY hEntryKey, LPCWSTR *lpApplicationName, LPCWSTR *lpCo
 static BOOL Process(LPCWSTR *ApplicationName, LPCWSTR *CommandLine)
 {
     HKEY hKey = nullptr;
-    if (RegOpenKeyW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NtVdm64", &hKey) != ERROR_SUCCESS)
+    if (RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NtVdm64", 0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS | KEY_WOW64_64KEY, &hKey) != ERROR_SUCCESS)
     {
         return false;
     }
