@@ -22,7 +22,6 @@ static size_t my_wcslen(LPCWSTR String)
 static void SplitCommandLine(LPCWSTR CommandLine, LPCWSTR *FirstArgument, LPCWSTR *RemainArguments)
 {
     size_t SplitPosition = 0;
-    auto QuoteMode = false;
     if (CommandLine[0] == L'"')
     {
         for (SplitPosition = 1; CommandLine[SplitPosition]; SplitPosition++)
